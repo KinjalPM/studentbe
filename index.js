@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 4000
+const port = process.env.port || 4000
 const data = require('./Student_Data.json')
 const { v4: uuidv4 } = require('uuid');
 var cors = require('cors')
