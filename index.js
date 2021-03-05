@@ -8,20 +8,6 @@ const { v4: uuidv4 } = require('uuid');
 var cors = require('cors')
 app.use(cors())
 
-app.get('/', (req, res) => {
-  res.send(uuidData)
-})
-
-app.get('/allrecords',(req,res)=>{
-  let uuidData = data.map(i=>{
-       return{
-         ...i,
-         Id: uuidv4()
-       }
-    })
-    res.send(uuidData)
-})
-
 let uuidData = data.map(i=>{
   return{
     ...i,
@@ -29,13 +15,21 @@ let uuidData = data.map(i=>{
   }
 });
 
-
 app.get('/recordsdetails/:id',(req,res)=>{
+  console.log('indetails')
   var id = req.params.id;
   console.log(id);
+  console.log(uuidData.filter(i=>id === i.Id),'UUID Data')
    res.send(uuidData.filter(i=>id === i.Id));
 })
 
+app.get('/allrecords',(req,res)=>{
+    res.send(uuidData)
+})
+
+app.get('/', (req, res) => {
+  res.send(uuidData)
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
