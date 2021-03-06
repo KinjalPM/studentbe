@@ -31,6 +31,14 @@ app.get('/records', (req, res) => {
   res.send(data)
 })
 
+app.get('/dummyroute',(req,res)=>{
+  if(process.env.NODE_ENV === 'production'){
+  res.send(process.env.Kinjal_pm)
+  }else{
+  res.send('some dummy key in local')
+  }
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
