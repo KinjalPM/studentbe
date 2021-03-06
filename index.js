@@ -27,10 +27,14 @@ app.get('/allrecords',(req,res)=>{
     res.send(uuidData)
 })
 
-app.get('/', (req, res) => {
-  res.send(uuidData)
+app.get('/records', (req, res) => {
+  res.send(data)
 })
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
+})
+
+app.get('/',(req,res)=>{
+  res.sendFile('index.html', {root: __dirname })
 })
