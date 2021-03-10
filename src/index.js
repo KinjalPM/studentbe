@@ -20,6 +20,10 @@ db.once('open', function() {
 
 app.use('/v1', routes);
 
+app.get('/',(req,res)=>{
+  res.sendFile('index.html', {root: __dirname })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
