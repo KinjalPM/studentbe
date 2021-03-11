@@ -21,7 +21,7 @@ const recordSchema = mongoose.Schema(
         type: String
     },
     Job_Start_Date:{
-        type: Date
+        type: Date , default: Date.now()
     }
   },
   {

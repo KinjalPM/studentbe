@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const Company = require('../models/company.model');
 const {recordService } = require('../services');
 const {companyService } = require('../services');
+const _ = require('lodash')
 var faker = require('faker');
 // ----------------------------------FAKER----------------------------------------------------------------------
 const createNewFakeRecord = async(req,res)=>{
@@ -103,7 +104,16 @@ const replaceExisting = async(req,res)=>{
 const recordbyname = async(req,res)=>{
   const {searchText} = req.query;
   const getrec = await recordService.recordbyname(searchText);
-  res.status(httpStatus.CREATED).send(getrec);
+  const getcomp = await companyService.getAllCompaniesByID(searchText);
+  console.log(getcomp);
+  const accumulateIds =getcomp.map(i=>i._id)
+  console.log(accumulateIds);
+  const recsWithKw = await recordService.getRecordsByCompanyId(accumulateIds);
+  const mergeRec=[...getrec,...recsWithKw]
+  console.log(mergeRec,'mergeRec');
+  const deDupValue= _.uniqBy(mergeRec,'_id');
+  console.log(deDupValue,'deDupValue');
+  res.status(httpStatus.CREATED).send(deDupValue);
 }
 
 

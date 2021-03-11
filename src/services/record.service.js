@@ -42,9 +42,18 @@ const recordbyname = async(searchText) =>{
     {Specialization:{$regex: regex}}
   ]
   })
-
+  .populate('company',['companyName','careerUrl'])
+ 
   return getrec;
 }
+
+const getRecordsByCompanyId = async (ids) => {
+
+  const records = await Record
+  .find({ 'company': { $in: ids } })
+  .populate('company',['companyName','careerUrl'])
+  return records;
+};
 
 module.exports = {
     createNewRecord,
@@ -53,5 +62,6 @@ module.exports = {
     deleteManyRec,
     recordIsPatch,
     replaceExisting,
-    recordbyname
+    recordbyname,
+    getRecordsByCompanyId
   };
