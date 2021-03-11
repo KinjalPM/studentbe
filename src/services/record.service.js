@@ -7,10 +7,11 @@ const createNewRecord = async (input) => {
   console.log(rec)
   return rec;
 };
-const getAllRecords = async()=>{
+const getAllRecords = async(limit)=>{
   const getRec = await Record
   .find({})
-  .populate('company',['companyName','careerUrl']);
+  .populate('company',['companyName','careerUrl'])
+  .limit(parseInt(limit));
   return getRec;
 }
 
@@ -32,11 +33,25 @@ const replaceExisting = async(upd)=>{
   return rec;
 }
 
+const recordbyname = async(searchText) =>{
+  const regex = new RegExp(searchText, 'gmi')
+  const getrec = await Record
+  .find({$or:[
+    {University_Name:{$regex: regex}},
+    {Job_Title :{$regex: regex}},
+    {Specialization:{$regex: regex}}
+  ]
+  })
+
+  return getrec;
+}
+
 module.exports = {
     createNewRecord,
     getAllRecords,
     deleteTheRecord,
     deleteManyRec,
     recordIsPatch,
-    replaceExisting
+    replaceExisting,
+    recordbyname
   };

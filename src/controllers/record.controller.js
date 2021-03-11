@@ -2,6 +2,43 @@ const httpStatus = require('http-status');
 const Company = require('../models/company.model');
 const {recordService } = require('../services');
 const {companyService } = require('../services');
+var faker = require('faker');
+// ----------------------------------FAKER----------------------------------------------------------------------
+const createNewFakeRecord = async(req,res)=>{
+  // for(let i=0;i<58;i++){
+  let compInput ={
+    companyName:faker.company.companyName(),
+    careerUrl:faker.internet.url(),
+  }
+  let recordInput ={
+    University_Name:`university of ${faker.address.city()}`,
+    Graduation_Year:faker.random.number(),
+    Specialization :faker.commerce.department(),
+    Job_Title:faker.name.jobTitle(),
+    Job_Start_Date:faker.date.past()
+  }
+
+  const {companyName} = compInput.companyName
+  const id1 = await Company.exists({companyName:companyName})
+  if(id1){
+ 
+    const comp = (await Company.findOne({companyName})).populate('_id')
+    const s = {company: comp._id, ...recordInput}
+  const rec = await recordService.createNewRecord(s)
+  // console.log("----------------------------i "+i);
+  // res.status(httpStatus.CREATED).send(rec);
+
+  }else{
+    const comp = await companyService.createNewCompany(compInput); 
+    const s = {company: comp._id, ...recordInput}
+  const rec = await recordService.createNewRecord(s)
+  // console.log("----------------------------i "+i);
+  // res.status(httpStatus.CREATED).send(rec);
+
+  }
+// }
+};
+// ------------------------------------------------------------------------------------------------------------
 const createNewRecord = async (req, res) => {
   const {University_Name,
     companyName,
@@ -41,7 +78,8 @@ const createNewRecord = async (req, res) => {
 };
 
 const getAllRecords = async(req,res)=>{
-  const getRec = await recordService.getAllRecords();
+  let {limit}= req.query;
+  const getRec = await recordService.getAllRecords(limit)
   res.status(httpStatus.CREATED).send(getRec);
 }
 
@@ -61,10 +99,21 @@ const replaceExisting = async(req,res)=>{
   const rec = await recordService.replaceExisting(rep);
   res.status(httpStatus.CREATED).send(rec);
 }
+
+const recordbyname = async(req,res)=>{
+  const {searchText} = req.query;
+  const getrec = await recordService.recordbyname(searchText);
+  res.status(httpStatus.CREATED).send(getrec);
+}
+
+
+
 module.exports = {
     createNewRecord,
     getAllRecords,
     deleteTheRecord,
     recordIsPatch,
-    replaceExisting
+    replaceExisting,
+    createNewFakeRecord,
+    recordbyname
 };

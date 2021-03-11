@@ -8,4 +8,6 @@ router.get('/getallrecords',recordController.getAllRecords);
 router.delete('/deletetherecords',recordController.deleteTheRecord);
 router.patch('/updatetherecord',recordController.recordIsPatch);
 router.put('/replaceExisting',recordController.replaceExisting);
+router.post('/createnewfakerecord',recordController.createNewFakeRecord);
+router.get('/recordbyname',recordController.recordbyname);
 module.exports = router;
