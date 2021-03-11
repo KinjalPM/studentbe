@@ -54,6 +54,24 @@ const getRecordsByCompanyId = async (ids) => {
   .populate('company',['companyName','careerUrl'])
   return records;
 };
+const getPaginatedRecords = async ({next_cursor,limit=25}) => {
+    let com
+  if(next_cursor === 'null') {
+     com = await Record
+    .find({})
+    .populate('company',['companyName','careerUrl'])
+    .limit(limit)
+    return com 
+  }
+  
+  else {
+    com = await Record
+    .find({ _id: { $gt: next_cursor } })
+    .populate('company',['companyName','careerUrl'])
+    .limit(limit)
+  }
+  return com
+}
 
 module.exports = {
     createNewRecord,
@@ -63,5 +81,6 @@ module.exports = {
     recordIsPatch,
     replaceExisting,
     recordbyname,
-    getRecordsByCompanyId
+    getRecordsByCompanyId,
+    getPaginatedRecords
   };

@@ -116,7 +116,12 @@ const recordbyname = async(req,res)=>{
   res.status(httpStatus.CREATED).send(deDupValue);
 }
 
-
+const getPaginatedRecords = async (req, res) => {
+  let { next_cursor = null, limit = 25}= req.query
+  const comp = await recordService.getPaginatedRecords({next_cursor,limit})
+  console.log(comp.length,'comp.length');
+  res.status(httpStatus.CREATED).send(comp);
+} 
 
 module.exports = {
     createNewRecord,
@@ -125,5 +130,6 @@ module.exports = {
     recordIsPatch,
     replaceExisting,
     createNewFakeRecord,
-    recordbyname
+    recordbyname,
+    getPaginatedRecords
 };

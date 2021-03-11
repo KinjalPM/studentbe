@@ -10,4 +10,5 @@ router.patch('/updatetherecord',recordController.recordIsPatch);
 router.put('/replaceExisting',recordController.replaceExisting);
 router.post('/createnewfakerecord',recordController.createNewFakeRecord);
 router.get('/recordbyname',recordController.recordbyname);
+router.get('/getpaginatedrecords', recordController.getPaginatedRecords);
 module.exports = router;
