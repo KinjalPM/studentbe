@@ -72,7 +72,13 @@ const getPaginatedRecords = async ({next_cursor,limit=25}) => {
   }
   return com
 }
+const edittherecord = async(id)=>{
+  
+  const getRec = await Record.find({_id:id})
+   .populate('company',['companyName','careerUrl'])
 
+  return getRec;
+}
 module.exports = {
     createNewRecord,
     getAllRecords,
@@ -82,5 +88,6 @@ module.exports = {
     replaceExisting,
     recordbyname,
     getRecordsByCompanyId,
-    getPaginatedRecords
+    getPaginatedRecords,
+    edittherecord
   };

@@ -97,6 +97,7 @@ const recordIsPatch = async(req,res)=>{
 }
 const replaceExisting = async(req,res)=>{
   const rep = req.body;
+  console.log(rep)
   const rec = await recordService.replaceExisting(rep);
   res.status(httpStatus.CREATED).send(rec);
 }
@@ -122,7 +123,14 @@ const getPaginatedRecords = async (req, res) => {
   console.log(comp.length,'comp.length');
   res.status(httpStatus.CREATED).send(comp);
 } 
+const edittherecord = async (req,res)=>{
+console.log("----------"+ req.query)
+  const {id} = req.query;
+  console.log(id+"id")
+  const getRec = await recordService.edittherecord(id)
+  res.status(httpStatus.CREATED).send(getRec);
 
+}
 module.exports = {
     createNewRecord,
     getAllRecords,
@@ -131,5 +139,6 @@ module.exports = {
     replaceExisting,
     createNewFakeRecord,
     recordbyname,
-    getPaginatedRecords
+    getPaginatedRecords,
+    edittherecord
 };
